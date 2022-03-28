@@ -1,0 +1,75 @@
+schema: SimV1
+name: calculator
+
+connections:
+  - port: 18181
+
+services:
+
+  - name: addition
+    steps:
+      - direction: In
+        trigger:
+          - uri: /addition
+        buffer:
+          - jsonPath: augend
+            name: augend
+          - jsonPath: addend
+            name: addend
+      - direction: Out
+        message:
+          payload: '{ "sum": 0 }'
+        insert:
+          - jsonPath: sum
+            value: '{math[{b[augend]} + {b[addend]}]}'
+
+  - name: subtraction
+    steps:
+      - direction: In
+        trigger:
+          - uri: /subtraction
+        buffer:
+          - jsonPath: minuend
+            name: minuend
+          - jsonPath: subtrahend
+            name: subtrahend
+      - direction: Out
+        message:
+          payload: '{ "difference": 0 }'
+        insert:
+          - jsonPath: difference
+            value: '{math[{b[minuend]} - {b[subtrahend]}]}'
+
+  - name: multiplication
+    steps:
+      - direction: In
+        trigger:
+          - uri: /multiplication
+        buffer:
+          - jsonPath: multiplier
+            name: multiplier
+          - jsonPath: multiplicand
+            name: multiplicand
+      - direction: Out
+        message:
+          payload: '{ "product": 0 }'
+        insert:
+          - jsonPath: product
+            value: '{math[{b[multiplier]} * {b[multiplicand]}]}'
+
+  - name: division
+    steps:
+      - direction: In
+        trigger:
+          - uri: /division
+        buffer:
+          - jsonPath: dividend
+            name: dividend
+          - jsonPath: divisor
+            name: divisor
+      - direction: Out
+        message:
+          payload: '{ "quotient": 0 }'
+        insert:
+          - jsonPath: quotient
+            value: '{math[{b[dividend]} / {b[divisor]}]}'

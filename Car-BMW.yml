@@ -1,0 +1,88 @@
+schema: V01
+services:
+- name: Car-BMW
+  steps:
+  - name: SampleCarServiceRequest
+    direction: In
+    message:
+      method: POST
+      headers:
+        SOAPAction: '"http://tempuri.org/ISampleCarService/getCar"'
+        Sid: 5f0293944d970
+        User-Agent: PHP-SOAP/5.3.5
+        Content-Type: text/xml; charset=utf-8
+        Host: localhost:8888
+        Content-Length: 171
+    trigger:
+    - xPath: /*[local-name()='Envelope']/*[local-name()='Body']/*[local-name()='getCar']/*[local-name()='Make']
+      value: BMW
+  - name: SampleCarService Response
+    direction: Out
+    message:
+      method: POST
+      statusCode: 200 OK
+      headers:
+        Sid: 5f0293944d970
+        Content-Type: text/xml; charset=utf-8
+        Date: Mon, 06 Jul 2020 03:04:06 GMT
+        Server: Microsoft-HTTPAPI/2.0
+        Last-Modified: Mon, 06 Jul 2020 03:04:06 GMT
+        Content-Length: 579
+        Keep-Alive: True
+      payload: >-
+        <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+
+          <s:Body>
+
+            <getCarResponse xmlns="http://tempuri.org/">
+
+              <getCarResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+
+                <FuelTypes xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+
+                  <a:string>Petrol</a:string>
+
+                  <a:string>Hybrid</a:string>
+
+                  <a:string>Electric</a:string>
+
+                </FuelTypes>
+
+                <Make>BMW</Make>
+
+                <Seats xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+
+                  <a:int>2</a:int>
+
+                  <a:int>3</a:int>
+
+                  <a:int>4</a:int>
+
+                  <a:int>5</a:int>
+
+                </Seats>
+
+              </getCarResult>
+
+            </getCarResponse>
+
+          </s:Body>
+
+        </s:Envelope>
+    insert:
+    - xPath: /*[local-name()='Envelope']/*[local-name()='Body']/*[local-name()='getCarResponse']/*[local-name()='getCarResult']/*[local-name()='Make']
+      value: BMW
+    - xPath: /*[local-name() = 'Envelope']/*[local-name() = 'Body']/*[local-name() = 'getCarResponse']/*[local-name() = 'getCarResult']/*[local-name() = 'FuelTypes']/*[local-name() = 'string'][1]
+      value: Petrol
+    - xPath: /*[local-name() = 'Envelope']/*[local-name() = 'Body']/*[local-name() = 'getCarResponse']/*[local-name() = 'getCarResult']/*[local-name() = 'FuelTypes']/*[local-name() = 'string'][2]
+      value: Hybrid
+    - xPath: /*[local-name() = 'Envelope']/*[local-name() = 'Body']/*[local-name() = 'getCarResponse']/*[local-name() = 'getCarResult']/*[local-name() = 'FuelTypes']/*[local-name() = 'string'][3]
+      value: Electric
+    - xPath: /*[local-name() = 'Envelope']/*[local-name() = 'Body']/*[local-name() = 'getCarResponse']/*[local-name() = 'getCarResult']/*[local-name() = 'Seats']/*[local-name() = 'int'][1]
+      value: 2
+    - xPath: /*[local-name() = 'Envelope']/*[local-name() = 'Body']/*[local-name() = 'getCarResponse']/*[local-name() = 'getCarResult']/*[local-name() = 'Seats']/*[local-name() = 'int'][2]
+      value: 3
+    - xPath: /*[local-name() = 'Envelope']/*[local-name() = 'Body']/*[local-name() = 'getCarResponse']/*[local-name() = 'getCarResult']/*[local-name() = 'Seats']/*[local-name() = 'int'][3]
+      value: 4
+    - xPath: /*[local-name() = 'Envelope']/*[local-name() = 'Body']/*[local-name() = 'getCarResponse']/*[local-name() = 'getCarResult']/*[local-name() = 'Seats']/*[local-name() = 'int'][4]
+      value: 5

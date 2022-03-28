@@ -1,0 +1,64 @@
+schema: SimV1
+name: calculator contract test
+
+includes:
+  - calculator
+
+connections:
+  - name: http
+    listen: false
+    endpoint: localhost:18181
+
+services:
+
+  - name: test addition
+    steps:
+      - direction: Out
+        to: http
+        message:
+          payload: '{ "augend": 7, "addend": 77 }'
+        insert:
+          - uri: /addition
+      - direction: In
+        verify:
+          - jsonPath: sum
+            value: 84
+
+  - name: test multiplication
+    steps:
+      - direction: Out
+        to: http
+        message:
+          payload: '{ "multiplier": 7, "multiplicand": 7 }'
+        insert:
+          - uri: /multiplication
+      - direction: In
+        verify:
+          - jsonPath: product
+            value: 49
+
+  - name: test subtraction
+    steps:
+      - direction: Out
+        to: http
+        message:
+          payload: '{ "minuend": 7, "subtrahend": 7 }'
+        insert:
+          - uri: /subtraction
+      - direction: In
+        verify:
+          - jsonPath: difference
+            value: 0
+
+  - name: test division
+    steps:
+      - direction: Out
+        to: http
+        message:
+          payload: '{ "dividend": 7, "divisor": 7 }'
+        insert:
+          - uri: /division
+      - direction: In
+        verify:
+          - jsonPath: quotient
+            value: 1

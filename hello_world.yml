@@ -1,0 +1,16 @@
+schema: SimV1
+name: default
+
+connections:
+  - port: 8080
+
+services:
+
+  - steps:
+      - direction: In
+        trigger:
+          - property: Path
+            value: '*'
+      - direction: Out
+        message:
+          payload: Hello world!
